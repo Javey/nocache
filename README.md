@@ -24,7 +24,7 @@ noCache.processMedia('./web/edit.png', './build/[name].[hash:6].[ext]') # 处理
     .then ->
         noCache.processJs('./web/main.js', './build/[name].[hash:6].[ext]') # 处理js
     .then ->
-        noCache.processTpl('./web/index.html', './build/[name].[ext]') # 最后处理模板
+        noCache.processTpl('./web/index.html', './build/[path][name].[ext]') # 最后处理模板
 ```
 
 根据文件的依赖关系，处理顺序为：`image` -> `css` -> `js` -> `tpl`
