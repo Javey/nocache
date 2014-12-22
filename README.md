@@ -5,7 +5,7 @@
 ## Install
 
 ```
-npm install web-cache
+npm install web-nocache
 ```
 
 ## Usage
