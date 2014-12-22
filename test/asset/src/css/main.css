@@ -1,0 +1,8 @@
+h1 {
+    color: red;
+}
+
+.div {
+    background: url('../image/edit.png');
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../image/edit.png');
+}

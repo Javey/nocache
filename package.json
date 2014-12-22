@@ -1,0 +1,27 @@
+{
+  "name": "nocache",
+  "description": "Version static resource. Clear cache of browser when you publish you webapp.",
+  "version": "0.0.1",
+  "author": "Javey <jiawei23716@sina.com>",
+  "main": "dist/nocache.js",
+  "dependencies": {
+    "glob": "~4.3.1",
+    "bluebird": "~2.3.11",
+    "loader-utils": "~0.2.5",
+    "lodash": "~2.4.1",
+    "fs-extra": "~0.13.0",
+    "css": "~2.1.0",
+    "cheerio": "~0.18.0"
+  },
+  "devDependencies": {
+    "mocha": "~2.0.1",
+    "should": "~4.4.1",
+    "mmmagic": "~0.3.12",
+    "chai": "~1.10.0",
+    "chai-as-promised": "~4.1.1",
+    "coffee-script": "~1.8.0"
+  },
+  "scripts": {
+    "build": "coffee -o dist -cb src"
+  }
+}
