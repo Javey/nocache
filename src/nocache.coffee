@@ -6,18 +6,38 @@ Processor = require './lib/Processor'
 
 class NoCache
     constructor: (@options = { sourceContext: '', outputContext: '' }) ->
+        @map = {}
 
-    processMedia: (pattern) ->
-        Processor.getInstance('media').write(pattern, @options)
+    processMedia: (files, pattern) ->
+        processor = Processor.getInstance('media')
+        processor
+            .setFiles(files)
+            .write(pattern, @options)
+            .then => @map = processor.getMap()
 
-    processCss: (pattern) ->
-        Processor.getInstance('css').write(pattern, @options)
+    processCss: (files, pattern) ->
+        processor = Processor.getInstance('css')
+        processor
+            .setFiles(files)
+            .setMap(@map)
+            .write(pattern, @options)
+            .then => @map = processor.getMap()
 
-    processJs: (pattern) ->
-        Processor.getInstance('js').write(pattern, @options)
+    processJs: (files, pattern) ->
+        processor = Processor.getInstance('js')
+        processor
+            .setFiles(files)
+            .setMap(@map)
+            .write(pattern, @options)
+            .then => @map = processor.getMap()
 
-    processTpl: (pattern) ->
-        Processor.getInstance('tpl').write(pattern, @options)
+    processTpl: (files, pattern) ->
+        processor = Processor.getInstance('tpl')
+        processor
+            .setFiles(files)
+            .setMap(@map)
+            .write(pattern, @options)
+            .then => @map = processor.getMap()
 
 module.exports = {
     NoCache: NoCache

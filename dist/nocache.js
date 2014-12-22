@@ -9,22 +9,47 @@ NoCache = (function() {
       sourceContext: '',
       outputContext: ''
     };
+    this.map = {};
   }
 
-  NoCache.prototype.processMedia = function(pattern) {
-    return Processor.getInstance('media').write(pattern, this.options);
+  NoCache.prototype.processMedia = function(files, pattern) {
+    var processor;
+    processor = Processor.getInstance('media');
+    return processor.setFiles(files).write(pattern, this.options).then((function(_this) {
+      return function() {
+        return _this.map = processor.getMap();
+      };
+    })(this));
   };
 
-  NoCache.prototype.processCss = function(pattern) {
-    return Processor.getInstance('css').write(pattern, this.options);
+  NoCache.prototype.processCss = function(files, pattern) {
+    var processor;
+    processor = Processor.getInstance('css');
+    return processor.setFiles(files).setMap(this.map).write(pattern, this.options).then((function(_this) {
+      return function() {
+        return _this.map = processor.getMap();
+      };
+    })(this));
   };
 
-  NoCache.prototype.processJs = function(pattern) {
-    return Processor.getInstance('js').write(pattern, this.options);
+  NoCache.prototype.processJs = function(files, pattern) {
+    var processor;
+    processor = Processor.getInstance('js');
+    return processor.setFiles(files).setMap(this.map).write(pattern, this.options).then((function(_this) {
+      return function() {
+        return _this.map = processor.getMap();
+      };
+    })(this));
   };
 
-  NoCache.prototype.processTpl = function(pattern) {
-    return Processor.getInstance('tpl').write(pattern, this.options);
+  NoCache.prototype.processTpl = function(files, pattern) {
+    var processor;
+    processor = Processor.getInstance('tpl');
+    return processor.setFiles(files).setMap(this.map).write(pattern, this.options).then((function(_this) {
+      return function() {
+        return _this.map = processor.getMap();
+      };
+    })(this));
   };
 
   return NoCache;
