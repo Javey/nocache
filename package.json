@@ -1,7 +1,7 @@
 {
   "name": "web-nocache",
   "description": "Version static resource. Clear cache of browser when you publish you webapp.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Javey <jiawei23716@sina.com>",
   "main": "dist/nocache.js",
   "repository": {

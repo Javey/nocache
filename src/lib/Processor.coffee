@@ -20,10 +20,8 @@ class Processor
         Promise.map(@files, (file) =>
             @_readFile(file)
             .then (content) =>
-                outputFilename = @_getFilename(filename, file, options.sourceContext, content)
-
                 sourceFile = path.resolve file
-                outputFile = path.resolve outputFilename
+                outputFile = path.resolve @_getFilename(filename, file, options.sourceContext, content || 'nocache') # 没有文本内容不会去求hash值,所以给个默认值
 
                 @map[sourceFile] = outputFile
 
@@ -77,8 +75,11 @@ class Processor
     ###*
     * 设置map
     ###
-    setMap: (map) ->
-        _.extend(@map, map)
+    setMap: (map, value) ->
+        if value
+            @map[map] = value
+        else
+            _.extend(@map, map)
         @
 
     ###*
