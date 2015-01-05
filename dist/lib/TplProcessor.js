@@ -19,11 +19,13 @@ TplProcessor = (function(_super) {
   }
 
   TplProcessor.prototype.process = function(content, sourceFile, outputFile, options) {
-    $ = $.load(content);
+    $ = $.load(content, {
+      decodeEntities: false
+    });
     this._replaceMedia($, sourceFile, outputFile, options);
     this._replaceCss($, sourceFile, outputFile, options);
     this._repalceJs($, sourceFile, outputFile, options);
-    return $.xml();
+    return $.html();
   };
 
   TplProcessor.prototype._replaceMedia = function($, sourceFile, outputFile, options) {

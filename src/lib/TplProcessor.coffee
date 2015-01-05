@@ -9,11 +9,11 @@ path = require 'path'
 
 class TplProcessor extends Processor
     process: (content, sourceFile, outputFile, options) ->
-        $ = $.load(content)
+        $ = $.load(content, {decodeEntities: false})
         @_replaceMedia($, sourceFile, outputFile, options)
         @_replaceCss($, sourceFile, outputFile, options)
         @_repalceJs($, sourceFile, outputFile, options)
-        $.xml()
+        $.html()
 
     _replaceMedia: ($, sourceFile, outputFile, options) ->
         $('img').each (i, elem) =>
