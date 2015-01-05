@@ -26,6 +26,7 @@
     "coffee-script": "~1.8.0"
   },
   "scripts": {
-    "build": "coffee -o dist -cb src"
+    "build": "coffee -o dist -cb src",
+    "test": "node_modules/.bin/mocha --compilers coffee:coffee-script/register test/test --recursive"
   }
 }

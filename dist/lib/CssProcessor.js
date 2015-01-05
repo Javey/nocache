@@ -36,9 +36,12 @@ CssProcessor = (function(_super) {
       return function(decl) {
         var property;
         property = decl.property;
-        if (~(property != null ? property.indexOf('background') : void 0)) {
+        if (!property) {
+          return;
+        }
+        if (~property.indexOf('background')) {
           return _this._replaceBackground(decl, sourceFile, outputFile, options);
-        } else if (~(property != null ? property.indexOf('filter') : void 0)) {
+        } else if (~property.indexOf('filter')) {
           return _this._replaceFilter(decl, sourceFile, outputFile, options);
         }
       };

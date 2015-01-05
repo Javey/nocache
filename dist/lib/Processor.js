@@ -34,10 +34,9 @@ Processor = (function() {
     return Promise.map(this.files, (function(_this) {
       return function(file) {
         return _this._readFile(file).then(function(content) {
-          var outputFile, outputFilename, sourceFile;
-          outputFilename = _this._getFilename(filename, file, options.sourceContext, content);
+          var outputFile, sourceFile;
           sourceFile = path.resolve(file);
-          outputFile = path.resolve(outputFilename);
+          outputFile = path.resolve(_this._getFilename(filename, file, options.sourceContext, content || 'nocache'));
           _this.map[sourceFile] = outputFile;
           return Promise.join(_this.process(content, sourceFile, outputFile, options), outputFile);
         }).then(function(_arg) {
@@ -125,8 +124,12 @@ Processor = (function() {
   * 设置map
    */
 
-  Processor.prototype.setMap = function(map) {
-    _.extend(this.map, map);
+  Processor.prototype.setMap = function(map, value) {
+    if (value) {
+      this.map[map] = value;
+    } else {
+      _.extend(this.map, map);
+    }
     return this;
   };
 

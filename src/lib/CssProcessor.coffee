@@ -18,9 +18,10 @@ class CssProcessor extends Processor
     _replace: (rule, sourceFile, outputFile, options) ->
         _.each rule.declarations, (decl) =>
             property = decl.property
-            if ~property?.indexOf('background')
+            return unless property
+            if ~property.indexOf('background')
                 @_replaceBackground(decl, sourceFile, outputFile, options)
-            else if ~property?.indexOf('filter')
+            else if ~property.indexOf('filter')
                 @_replaceFilter(decl, sourceFile, outputFile, options)
 
     _replaceBackground: (decl, sourceFile, outputFile, options) ->
