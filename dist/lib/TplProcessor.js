@@ -23,7 +23,7 @@ TplProcessor = (function(_super) {
     this._replaceMedia($, sourceFile, outputFile, options);
     this._replaceCss($, sourceFile, outputFile, options);
     this._repalceJs($, sourceFile, outputFile, options);
-    return $.html();
+    return $.xml();
   };
 
   TplProcessor.prototype._replaceMedia = function($, sourceFile, outputFile, options) {

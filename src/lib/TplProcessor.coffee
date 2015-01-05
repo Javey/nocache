@@ -13,7 +13,7 @@ class TplProcessor extends Processor
         @_replaceMedia($, sourceFile, outputFile, options)
         @_replaceCss($, sourceFile, outputFile, options)
         @_repalceJs($, sourceFile, outputFile, options)
-        $.html()
+        $.xml()
 
     _replaceMedia: ($, sourceFile, outputFile, options) ->
         $('img').each (i, elem) =>
