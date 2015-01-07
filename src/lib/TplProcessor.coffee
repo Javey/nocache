@@ -20,7 +20,7 @@ class TplProcessor extends Processor
         )
 
     _replaceCss: (content, sourceFile, outputFile, options) ->
-        content = content.replace(/(href=[\'\"]?)([^\'\"]+)([\'\"]?)/g, (str, str1, href, str2) =>
+        content = content.replace(/(href=[\'\"]?)([^\'\"]+\.css)([\'\"]?)/g, (str, str1, href, str2) =>
             str1 + @_replacePath(href, sourceFile, outputFile, options) + str2
         )
 

@@ -32,7 +32,7 @@ TplProcessor = (function(_super) {
   };
 
   TplProcessor.prototype._replaceCss = function(content, sourceFile, outputFile, options) {
-    content = content.replace(/(href=[\'\"]?)([^\'\"]+)([\'\"]?)/g, (function(_this) {
+    content = content.replace(/(href=[\'\"]?)([^\'\"]+\.css)([\'\"]?)/g, (function(_this) {
       return function(str, str1, href, str2) {
         return str1 + _this._replacePath(href, sourceFile, outputFile, options) + str2;
       };
