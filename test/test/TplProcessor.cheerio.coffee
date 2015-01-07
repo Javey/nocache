@@ -2,7 +2,7 @@
 # @author javey
 # @date 14-12-19
 
-Processor = require '../../src/lib/TplProcessor'
+Processor = require '../old/TplProcessor.cheerio'
 should = require 'should'
 utils = require '../../src/lib/utils'
 Promise = require 'bluebird'
@@ -30,11 +30,11 @@ outputPureContent = """
 <html>
 <head>
     <title>test</title>
-    <link rel="stylesheet" href="test/a.test.css"/>
+    <link rel="stylesheet" href="test/a.test.css">
 </head>
 <body>
 This is body.
-<img src="test/a.test.png"/>
+<img src="test/a.test.png">
 <img src="test/b.test.png">
 <script src="test/a.test.js"></script>
 </body>
@@ -46,16 +46,10 @@ htmlWithStyle = """
 <style _xprocess="true">
     .a {background: url('test/a.png')}
 </style>
-<style _xprocess="true">
-    .a {background: url('test/a.png')}
-</style>
 </head>
 """
 outputHtmlWithStyle = """
 <head>
-<style>.a {
-  background: url('test/a.test.png');
-}</style>
 <style>.a {
   background: url('test/a.test.png');
 }</style>
@@ -84,7 +78,7 @@ velocityContent = """
 #set($MODEL = "development")
 <link rel="stylesheet" href="test/a.css">
 <body>
-<img src="./test/a.png" #if ($a > 1)good#end/>
+<img src="./test/a.png"/>
 <img src="test/b.png">
 <script src="test/a.js"></script>
 </body>
@@ -96,7 +90,7 @@ outputVelocityContent = """
 #set($MODEL = "development")
 <link rel="stylesheet" href="test/a.test.css">
 <body>
-<img src="test/a.test.png" #if ($a > 1)good#end/>
+<img src="test/a.test.png">
 <img src="test/b.test.png">
 <script src="test/a.test.js"></script>
 </body>
@@ -109,7 +103,7 @@ smartyContent = """
 {%/block%}
 <link rel="stylesheet" href="test/a.css">
 <body>
-<img src="./test/a.png">
+<img src="./test/a.png"/>
 <img src="test/b.png">
 <script src="test/a.js"></script>
 </body>

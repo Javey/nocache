@@ -3,52 +3,51 @@
 # @date 14-12-16
 
 Processor = require './Processor'
-$ = require 'cheerio'
 utils = require './utils'
 path = require 'path'
 
 class TplProcessor extends Processor
     process: (content, sourceFile, outputFile, options) ->
-        $ = $.load(content, {decodeEntities: false})
-        @_replaceMedia($, sourceFile, outputFile, options)
-        @_replaceCss($, sourceFile, outputFile, options)
-        @_repalceJs($, sourceFile, outputFile, options)
-        $.html()
+        content = @_replaceMedia(content, sourceFile, outputFile, options)
+        content = @_replaceCss(content, sourceFile, outputFile, options)
+        content = @_repalceJs(content, sourceFile, outputFile, options)
 
-    _replaceMedia: ($, sourceFile, outputFile, options) ->
-        $('img').each (i, elem) =>
-            @_replacePath($(elem), 'src', sourceFile, outputFile, options)
+        content
 
-    _replaceCss: ($, sourceFile, outputFile, options) ->
-        $('link[rel="stylesheet"]').each (i , elem) =>
-            @_replacePath($(elem), 'href', sourceFile, outputFile, options)
+    _replaceMedia: (content, sourceFile, outputFile, options) ->
+        content.replace(/(src=[\'\"]?)([^\'\"]+)([\'\"]?)/g, (str, str1, src, str2) =>
+            str1 + @_replacePath(src, sourceFile, outputFile, options) + str2
+        )
 
-        # 处理内联样式
-        $('style').each (i, elem) =>
-            $style = $(elem)
-            if $style.attr('_xprocess') == 'true'
-                # 内联样式需要处理
-                processor = Processor.getInstance('css')
-                $style.html processor.process($style.html(), sourceFile, outputFile, options)
-                $style.removeAttr('_xprocess')
+    _replaceCss: (content, sourceFile, outputFile, options) ->
+        content = content.replace(/(href=[\'\"]?)([^\'\"]+)([\'\"]?)/g, (str, str1, href, str2) =>
+            str1 + @_replacePath(href, sourceFile, outputFile, options) + str2
+        )
 
-    _repalceJs: ($, sourceFile, outputFile, options) ->
-        $('script').each (i, elem) =>
-            $elem = $(elem)
-            if $elem.attr('src')
-                @_replacePath($elem, 'src', sourceFile, outputFile, options)
-            else if $elem.attr('_xprocess') == 'true'
-                # 处理内联js
-                processor = Processor.getInstance('js')
-                $elem.html processor.process($elem.html(), sourceFile, outputFile, options)
-                $elem.removeAttr('_xprocess')
+        content = content.replace(/(<style)(?:\s+_xprocess=(?:[\'\"]?)true(?:[\'\"]?))([^>]*>)((?:.|\n)*?)(<\/style>)/g, (str, str1, str2, style, str3) =>
+            # 内联样式需要处理
+            processor = Processor.getInstance('css')
+            style = processor.process(style, sourceFile, outputFile, options)
+            str1 + str2 + style + str3
+        )
 
-    _replacePath: (dom, prop, sourceFile, outputFile, options) ->
-        if value = dom.attr(prop)
+        content
+
+
+    _repalceJs: (content, sourceFile, outputFile, options) ->
+        content.replace(/(<script)(?:\s+_xprocess=(?:[\'\"]?)true(?:[\'\"]?))([^>]*>)((?:.|\n)*?)(<\/script>)/g, (str, str1, str2, script, str3) =>
+            # 内联样式需要处理
+            processor = Processor.getInstance('js')
+            script = processor.process(script, sourceFile, outputFile, options)
+            str1 + str2 + script + str3
+        )
+
+    _replacePath: (value, sourceFile, outputFile, options) ->
+        if value
             # 去掉queryString
             value = value.split('?')[0]
 
             value = @_getNewUrl(value, path.dirname(sourceFile), path.dirname(outputFile), options)
-            dom.attr(prop, value)
+        value
 
 module.exports = TplProcessor
