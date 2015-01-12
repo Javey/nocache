@@ -34,6 +34,6 @@ utils = module.exports = {
     return url && !~url.indexOf('data:') && !~url.indexOf('about:') && !~url.indexOf('://');
   },
   isAbsolute: function(pathName) {
-    return path.resolve(pathName) === path.normalize(pathName);
+    return pathName.charAt(0) === '/';
   }
 };

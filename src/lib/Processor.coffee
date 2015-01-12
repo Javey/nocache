@@ -59,11 +59,11 @@ class Processor
                 throw new Error("#{url} is an absolute path. You must provide `sourceContext` and `outputContext` ") if !options.outputContext || !options.sourceContext
                 urlAbs = path.join path.resolve(options.sourceContext), url
                 if urlAbs = @map[urlAbs]
-                    url = urlAbs.replace(path.resolve(options.outputContext), '')
+                    url = urlAbs.replace(path.resolve(options.outputContext), '').replace(/\\/g, '/')
             else
                 urlAbs = path.resolve sourcePath, url
                 if urlAbs = @map[urlAbs]
-                    url = path.relative outputPath, urlAbs
+                    url = path.relative(outputPath, urlAbs).replace(/\\/g, '/')
         url
 
     ###*

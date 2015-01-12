@@ -98,12 +98,12 @@ Processor = (function() {
         }
         urlAbs = path.join(path.resolve(options.sourceContext), url);
         if (urlAbs = this.map[urlAbs]) {
-          url = urlAbs.replace(path.resolve(options.outputContext), '');
+          url = urlAbs.replace(path.resolve(options.outputContext), '').replace(/\\/g, '/');
         }
       } else {
         urlAbs = path.resolve(sourcePath, url);
         if (urlAbs = this.map[urlAbs]) {
-          url = path.relative(outputPath, urlAbs);
+          url = path.relative(outputPath, urlAbs).replace(/\\/g, '/');
         }
       }
     }

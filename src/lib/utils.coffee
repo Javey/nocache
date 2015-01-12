@@ -31,4 +31,4 @@ utils = module.exports =
         url && !~url.indexOf('data:') && !~url.indexOf('about:') && !~url.indexOf('://')
 
     isAbsolute: (pathName) ->
-        path.resolve(pathName) == path.normalize(pathName)
+        pathName.charAt(0) == '/'
