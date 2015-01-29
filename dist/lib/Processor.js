@@ -99,11 +99,20 @@ Processor = (function() {
         urlAbs = path.join(path.resolve(options.sourceContext), url);
         if (urlAbs = this.map[urlAbs]) {
           url = urlAbs.replace(path.resolve(options.outputContext), '').replace(/\\/g, '/');
+          url = utils.addCdn(url, this.cdn);
         }
       } else {
         urlAbs = path.resolve(sourcePath, url);
         if (urlAbs = this.map[urlAbs]) {
-          url = path.relative(outputPath, urlAbs).replace(/\\/g, '/');
+          if (_.isEmpty(this.cdn)) {
+            url = path.relative(outputPath, urlAbs).replace(/\\/g, '/');
+          } else {
+            if (!options.outputContext) {
+              throw new Error("" + url + " is an relative path. But you will add cdn, soy you must provide `outputContext` ");
+            }
+            url = urlAbs.replace(path.resolve(options.outputContext), '').replace(/\\/g, '/');
+            url = utils.addCdn(url, this.cdn);
+          }
         }
       }
     }
@@ -140,6 +149,11 @@ Processor = (function() {
 
   Processor.prototype.setFiles = function(files) {
     this.files = _.isString(files) ? [files] : files;
+    return this;
+  };
+
+  Processor.prototype.setCdn = function(cdn) {
+    this.cdn = _.isString(cdn) ? [cdn] : cdn;
     return this;
   };
 

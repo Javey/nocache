@@ -60,10 +60,17 @@ class Processor
                 urlAbs = path.join path.resolve(options.sourceContext), url
                 if urlAbs = @map[urlAbs]
                     url = urlAbs.replace(path.resolve(options.outputContext), '').replace(/\\/g, '/')
+                    url = utils.addCdn(url, @cdn)
             else
                 urlAbs = path.resolve sourcePath, url
                 if urlAbs = @map[urlAbs]
-                    url = path.relative(outputPath, urlAbs).replace(/\\/g, '/')
+                    if _.isEmpty(@cdn)
+                        url = path.relative(outputPath, urlAbs).replace(/\\/g, '/')
+                    else
+                        # 如果需要添加cdn, 则需要转为绝对路径
+                        throw new Error("#{url} is an relative path. But you will add cdn, soy you must provide `outputContext` ") if !options.outputContext
+                        url = urlAbs.replace(path.resolve(options.outputContext), '').replace(/\\/g, '/')
+                        url = utils.addCdn(url, @cdn)
         url
 
     ###*
@@ -87,6 +94,10 @@ class Processor
     ###
     setFiles: (files) ->
         @files = if _.isString(files) then [files] else files
+        @
+
+    setCdn: (cdn) ->
+        @cdn = if _.isString(cdn) then [cdn] else cdn
         @
 
 ###*

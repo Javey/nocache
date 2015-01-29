@@ -4,12 +4,13 @@
 
 Promise = require 'bluebird'
 fs = Promise.promisifyAll(require 'fs-extra')
-path = require 'path'
+Path = require 'path'
+_ = require 'lodash'
 
 utils = module.exports =
 
     writeFile: (file, content) ->
-        dirname = path.dirname file
+        dirname = Path.dirname file
         utils.fileExists dirname
         .then (exists) ->
             if !exists
@@ -32,3 +33,9 @@ utils = module.exports =
 
     isAbsolute: (pathName) ->
         pathName.charAt(0) == '/'
+
+    addCdn: (path, cdn) ->
+        if !_.isEmpty(cdn)
+            index = (path.length + Path.basename(path).charCodeAt(0)) % cdn.length
+            path = cdn[index] + path
+        path

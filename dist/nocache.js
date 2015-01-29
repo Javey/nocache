@@ -7,45 +7,46 @@ NoCache = (function() {
   function NoCache(options) {
     this.options = options != null ? options : {
       sourceContext: '',
-      outputContext: ''
+      outputContext: '',
+      cdn: []
     };
     this.map = {};
   }
 
-  NoCache.prototype.processMedia = function(files, pattern) {
+  NoCache.prototype.processMedia = function(files, pattern, cdn) {
     var processor;
     processor = Processor.getInstance('media');
-    return processor.setFiles(files).write(pattern, this.options).then((function(_this) {
+    return processor.setFiles(files).setCdn(cdn || this.options.cdn).write(pattern, this.options).then((function(_this) {
       return function() {
         return _this.map = processor.getMap();
       };
     })(this));
   };
 
-  NoCache.prototype.processCss = function(files, pattern) {
+  NoCache.prototype.processCss = function(files, pattern, cdn) {
     var processor;
     processor = Processor.getInstance('css');
-    return processor.setFiles(files).setMap(this.map).write(pattern, this.options).then((function(_this) {
+    return processor.setFiles(files).setMap(this.map).setCdn(cdn || this.options.cdn).write(pattern, this.options).then((function(_this) {
       return function() {
         return _this.map = processor.getMap();
       };
     })(this));
   };
 
-  NoCache.prototype.processJs = function(files, pattern) {
+  NoCache.prototype.processJs = function(files, pattern, cdn) {
     var processor;
     processor = Processor.getInstance('js');
-    return processor.setFiles(files).setMap(this.map).write(pattern, this.options).then((function(_this) {
+    return processor.setFiles(files).setMap(this.map).setCdn(cdn || this.options.cdn).write(pattern, this.options).then((function(_this) {
       return function() {
         return _this.map = processor.getMap();
       };
     })(this));
   };
 
-  NoCache.prototype.processTpl = function(files, pattern) {
+  NoCache.prototype.processTpl = function(files, pattern, cdn) {
     var processor;
     processor = Processor.getInstance('tpl');
-    return processor.setFiles(files).setMap(this.map).write(pattern, this.options).then((function(_this) {
+    return processor.setFiles(files).setMap(this.map).setCdn(cdn || this.options.cdn).write(pattern, this.options).then((function(_this) {
       return function() {
         return _this.map = processor.getMap();
       };

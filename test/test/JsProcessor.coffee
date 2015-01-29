@@ -21,9 +21,21 @@ var a = 'image/a.test.png',
 console.log(a, b);
 """
 
+cdnOutput = """
+var a = 'http://s1.static.com/image/a.test.png',
+    b = "http://s1.static.com/image/b.test.jpg';
+console.log(a, b);
+"""
+
+multiCdnOutput = """
+var a = 'http://s1.static.com/image/a.test.png',
+    b = "http://s2.static.com/image/b.test.jpg';
+console.log(a, b);
+"""
+
 cwd = process.cwd()
 
-describe 'MediaProcessor', ->
+describe 'JsProcessor', ->
     processor = null
 
     beforeEach ->
@@ -42,3 +54,22 @@ describe 'MediaProcessor', ->
             map[path.resolve 'image/b.jpg'] = path.resolve 'image/b.test.jpg'
             processor.setMap(map)
             processor.process(content, null, null, {sourceContext: '.', outputContext: '.'}).should.be.eql output
+
+        it 'add one cdn', ->
+            processor
+                .setCdn('http://s1.static.com')
+                .setReplaceTypes(['png', 'jpg', 'gif'])
+            map = {}
+            map[path.resolve 'image/a.png'] = path.resolve 'image/a.test.png'
+            map[path.resolve 'image/b.jpg'] = path.resolve 'image/b.test.jpg'
+            processor.setMap(map)
+            processor.process(content, null, null, {sourceContext: '.', outputContext: '.'}).should.be.eql cdnOutput
+        it 'add multi cdn', ->
+            processor
+                .setCdn(['http://s1.static.com', 'http://s2.static.com'])
+                .setReplaceTypes(['png', 'jpg', 'gif'])
+            map = {}
+            map[path.resolve 'image/a.png'] = path.resolve 'image/a.test.png'
+            map[path.resolve 'image/b.jpg'] = path.resolve 'image/b.test.jpg'
+            processor.setMap(map)
+            processor.process(content, null, null, {sourceContext: '.', outputContext: '.'}).should.be.eql multiCdnOutput
