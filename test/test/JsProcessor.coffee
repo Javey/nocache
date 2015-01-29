@@ -28,8 +28,8 @@ console.log(a, b);
 """
 
 multiCdnOutput = """
-var a = 'http://s1.static.com/image/a.test.png',
-    b = "http://s2.static.com/image/b.test.jpg';
+var a = 'http://s2.static.com/image/a.test.png',
+    b = "http://s1.static.com/image/b.test.jpg';
 console.log(a, b);
 """
 
