@@ -36,6 +36,7 @@ utils = module.exports =
 
     addCdn: (path, cdn) ->
         if !_.isEmpty(cdn)
-            index = (path.length + Path.basename(path).charCodeAt(0)) % cdn.length
+            fileName = Path.basename(path, Path.extname(path))
+            index = (fileName.charCodeAt(0) + fileName.charCodeAt(fileName.length - 1)) % cdn.length
             path = cdn[index] + path
         path
