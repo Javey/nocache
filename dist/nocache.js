@@ -59,5 +59,6 @@ NoCache = (function() {
 
 module.exports = {
   NoCache: NoCache,
-  Processor: Processor
+  Processor: Processor,
+  utils: require('./lib/utils')
 };

@@ -46,4 +46,5 @@ class NoCache
 module.exports = {
     NoCache: NoCache
     Processor: Processor
+    utils: require('./lib/utils')
 }
