@@ -60,11 +60,14 @@ TplProcessor = (function(_super) {
   };
 
   TplProcessor.prototype._replacePath = function(value, sourceFile, outputFile, options) {
+    var valueArray;
     if (value) {
-      value = value.split('?')[0];
+      valueArray = value.split('?');
+      value = valueArray[0];
       value = this._getNewUrl(value, path.dirname(sourceFile), path.dirname(outputFile), options);
     }
-    return value;
+    valueArray[0] = value;
+    return valueArray.join('?');
   };
 
   return TplProcessor;

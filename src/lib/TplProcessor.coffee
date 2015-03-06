@@ -44,10 +44,13 @@ class TplProcessor extends Processor
 
     _replacePath: (value, sourceFile, outputFile, options) ->
         if value
+            valueArray = value.split('?')
             # 去掉queryString
-            value = value.split('?')[0]
+            value = valueArray[0]
 
             value = @_getNewUrl(value, path.dirname(sourceFile), path.dirname(outputFile), options)
-        value
+        # 加上queryString，如果存在
+        valueArray[0] = value
+        valueArray.join('?')
 
 module.exports = TplProcessor

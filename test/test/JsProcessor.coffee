@@ -20,7 +20,6 @@ var a = 'image/a.test.png',
     b = "/image/b.test.jpg';
 console.log(a, b);
 """
-
 cdnOutput = """
 var a = 'http://s1.static.com/image/a.test.png',
     b = "http://s1.static.com/image/b.test.jpg';

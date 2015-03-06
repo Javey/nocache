@@ -111,7 +111,7 @@ smartyContent = """
 <body>
 <img src="./test/a.png">
 <img src="test/b.png">
-<script src="test/a.js"></script>
+<script src="test/a.js?v=1"></script>
 </body>
 """
 
@@ -124,7 +124,7 @@ outputSmartyContent = """
 <body>
 <img src="test/a.test.png">
 <img src="test/b.test.png">
-<script src="test/a.test.js"></script>
+<script src="test/a.test.js?v=1"></script>
 </body>
 """
 
