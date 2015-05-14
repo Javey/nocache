@@ -68,7 +68,7 @@ class Processor
                         url = path.relative(outputPath, urlAbs).replace(/\\/g, '/')
                     else
                         # 如果需要添加cdn, 则需要转为绝对路径
-                        throw new Error("#{url} is an relative path. But you will add cdn, soy you must provide `outputContext` ") if !options.outputContext
+                        throw new Error("'#{url}' is a relative path. But you will add cdn, so you must provide `outputContext` to convert it to an absolute path") if !options.outputContext
                         url = urlAbs.replace(path.resolve(options.outputContext), '').replace(/\\/g, '/')
                         url = utils.addCdn(url, @cdn)
         url
