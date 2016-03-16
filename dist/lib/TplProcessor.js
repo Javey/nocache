@@ -24,7 +24,7 @@ TplProcessor = (function(_super) {
   };
 
   TplProcessor.prototype._replaceMedia = function(content, sourceFile, outputFile, options) {
-    return content.replace(/(src=[\'\"]?)([^\'\"]+)([\'\"]?)/g, (function(_this) {
+    return content.replace(/((?:src|href)=[\'\"]?)([^\'\"]+)([\'\"]?)/g, (function(_this) {
       return function(str, str1, src, str2) {
         return str1 + _this._replacePath(src, sourceFile, outputFile, options) + str2;
       };

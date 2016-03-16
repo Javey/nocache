@@ -15,7 +15,7 @@ class TplProcessor extends Processor
         content
 
     _replaceMedia: (content, sourceFile, outputFile, options) ->
-        content.replace(/(src=[\'\"]?)([^\'\"]+)([\'\"]?)/g, (str, str1, src, str2) =>
+        content.replace(/((?:src|href)=[\'\"]?)([^\'\"]+)([\'\"]?)/g, (str, str1, src, str2) =>
             str1 + @_replacePath(src, sourceFile, outputFile, options) + str2
         )
 

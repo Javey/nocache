@@ -112,6 +112,7 @@ smartyContent = """
 <img src="./test/a.png">
 <img src="test/b.png">
 <script src="test/a.js?v=1"></script>
+<script type="text/javascript" src="http://www.example.com/textButton.js?jid=1949975560&companyID=462131&configID=56872&codeType=custom"></script>
 </body>
 """
 
@@ -125,6 +126,7 @@ outputSmartyContent = """
 <img src="test/a.test.png">
 <img src="test/b.test.png">
 <script src="test/a.test.js?v=1"></script>
+<script type="text/javascript" src="http://www.example.com/textButton.js?jid=1949975560&companyID=462131&configID=56872&codeType=custom"></script>
 </body>
 """
 
