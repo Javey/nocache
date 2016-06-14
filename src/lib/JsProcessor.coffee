@@ -9,7 +9,9 @@ _ = require 'lodash'
 class JsProcessor extends Processor
 
     process: (content, sourceFile, outputFile, options) ->
-        @reg ?= @setReplaceTypes(['png', 'jpg', 'gif'])
+        if !@reg
+            mediaProcessor = Processor.getInstance('media')
+            @reg = @setReplaceTypes(mediaProcessor.getTypes())
         content = content.replace(@reg, (all, rest, url) =>
             url = @_getNewUrl(url, path.dirname(sourceFile), path.dirname(outputFile), options)
             rest + url

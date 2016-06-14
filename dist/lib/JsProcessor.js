@@ -17,8 +17,10 @@ JsProcessor = (function(_super) {
   }
 
   JsProcessor.prototype.process = function(content, sourceFile, outputFile, options) {
-    if (this.reg == null) {
-      this.reg = this.setReplaceTypes(['png', 'jpg', 'gif']);
+    var mediaProcessor;
+    if (!this.reg) {
+      mediaProcessor = Processor.getInstance('media');
+      this.reg = this.setReplaceTypes(mediaProcessor.getTypes());
     }
     content = content.replace(this.reg, (function(_this) {
       return function(all, rest, url) {
