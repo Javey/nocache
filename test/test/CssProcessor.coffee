@@ -16,7 +16,7 @@ describe 'CssProcessor', ->
     mediaProcessor = null
 
     beforeEach ->
-        glob('../asset/src/image/**/*.png')
+        glob('../asset/src/@(image|fonts)/**/*')
         .then (files) ->
             mediaProcessor = Processor.getInstance('media')
             mediaProcessor

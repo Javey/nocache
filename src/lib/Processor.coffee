@@ -52,6 +52,11 @@ class Processor
      * 获取替换路径
     ###
     _getNewUrl: (url, sourcePath = '.', outputPath = '.', options) ->
+        ## 替换后面的问号
+        sufix = ''
+        if ~(index = url.indexOf('?'))
+            sufix = url.substring(index)
+            url = url.substring(0, index)
         if utils.isPathUrl(url)
             if utils.isAbsolute url
                 if _.isObject(sourcePath)
@@ -71,7 +76,7 @@ class Processor
                         throw new Error("'#{url}' is a relative path. But you will add cdn, so you must provide `outputContext` to convert it to an absolute path") if !options.outputContext
                         url = urlAbs.replace(path.resolve(options.outputContext), '').replace(/\\/g, '/')
                         url = utils.addCdn(url, @cdn)
-        url
+        "#{url}#{sufix}"
 
     ###*
      * 获取map
