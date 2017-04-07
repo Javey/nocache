@@ -81,12 +81,17 @@ Processor = (function() {
    */
 
   Processor.prototype._getNewUrl = function(url, sourcePath, outputPath, options) {
-    var urlAbs;
+    var index, sufix, urlAbs;
     if (sourcePath == null) {
       sourcePath = '.';
     }
     if (outputPath == null) {
       outputPath = '.';
+    }
+    sufix = '';
+    if (~(index = url.indexOf('?'))) {
+      sufix = url.substring(index);
+      url = url.substring(0, index);
     }
     if (utils.isPathUrl(url)) {
       if (utils.isAbsolute(url)) {
@@ -116,7 +121,7 @@ Processor = (function() {
         }
       }
     }
-    return url;
+    return "" + url + sufix;
   };
 
 

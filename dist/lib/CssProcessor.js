@@ -21,14 +21,20 @@ CssProcessor = (function(_super) {
   CssProcessor.prototype.process = function(content, sourceFile, outputFile, options) {
     var obj;
     obj = css.parse(content);
-    _.each(obj.stylesheet.rules, (function(_this) {
+    this._processRules(obj.stylesheet.rules, sourceFile, outputFile, options);
+    return css.stringify(obj);
+  };
+
+  CssProcessor.prototype._processRules = function(rules, sourceFile, outputFile, options) {
+    return _.each(rules, (function(_this) {
       return function(rule) {
-        if (rule.type === 'rule') {
+        if (rule.rules) {
+          return _this._processRules(rule.rules, sourceFile, outputFile, options);
+        } else {
           return _this._replace(rule, sourceFile, outputFile, options);
         }
       };
     })(this));
-    return css.stringify(obj);
   };
 
   CssProcessor.prototype._replace = function(rule, sourceFile, outputFile, options) {
@@ -39,8 +45,8 @@ CssProcessor = (function(_super) {
         if (!property) {
           return;
         }
-        if (~property.indexOf('background')) {
-          return _this._replaceBackground(decl, sourceFile, outputFile, options);
+        if (~property.indexOf('background') || ~property.indexOf('src')) {
+          return _this._replaceUrl(decl, sourceFile, outputFile, options);
         } else if (~property.indexOf('filter')) {
           return _this._replaceFilter(decl, sourceFile, outputFile, options);
         }
@@ -48,12 +54,20 @@ CssProcessor = (function(_super) {
     })(this));
   };
 
-  CssProcessor.prototype._replaceBackground = function(decl, sourceFile, outputFile, options) {
-    var matches, url;
-    if (matches = decl.value.match(/(.*url\([\'\"]?)([^\'\"\)]+)([\'\"]?\).*)/)) {
-      url = matches[2];
-      url = this._getNewUrl(url, path.dirname(sourceFile), path.dirname(outputFile), options);
-      return decl.value = "" + matches[1] + url + matches[3];
+  CssProcessor.prototype._replaceUrl = function(decl, sourceFile, outputFile, options) {
+    var matches;
+    if (matches = decl.value.match(/(url\([\'\"]?)([^\'\"\)]+)([\'\"]?\))/g)) {
+      return _.each(matches, (function(_this) {
+        return function(value) {
+          var url, _matches;
+          if (_matches = value.match(/(url\([\'\"]?)([^\'\"\)]+)([\'\"]?\))/)) {
+            url = _matches[2];
+            url = _this._getNewUrl(url, path.dirname(sourceFile), path.dirname(outputFile), options);
+            url = "" + _matches[1] + url + _matches[3];
+            return decl.value = decl.value.replace(value, url);
+          }
+        };
+      })(this));
     }
   };
 
